@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>屏幕常亮</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            font-family: Arial, sans-serif;
+        }
+        #container {
+            text-align: center;
+        }
+        button {
+            padding: 2rem 2rem;
+            margin: 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        #color-options {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>选择背景颜色并开启屏幕常亮</h1>
+        <div id="color-options">
+            <button class="color-btn" style="background-color: red;" data-color="red"></button>
+            <button class="color-btn" style="background-color: green;" data-color="green"></button>
+            <button class="color-btn" style="background-color: blue;" data-color="blue"></button>
+            <button class="color-btn" style="background-color: yellow;" data-color="yellow"></button>
+            <button class="color-btn" style="background-color: black;" data-color="black"></button>
+        </div>
+        <button id="start">开启屏幕常亮</button>
+    </div>
+
+    <script>
+        let selectedColor = "white"; // 默认背景颜色
+        let wakeLock = null;
+
+        // 点击颜色按钮切换颜色
+        document.querySelectorAll(".color-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                selectedColor = this.dataset.color; // 获取颜色值
+                document.body.style.backgroundColor = selectedColor;
+            });
+        });
+
+        // 点击开启屏幕常亮按钮
+        document.getElementById("start").addEventListener("click", async () => {
+            // 尝试进入全屏模式
+            if (document.documentElement.requestFullscreen) {
+                await document.documentElement.requestFullscreen();
+            } else if (document.documentElement.webkitRequestFullscreen) { // Safari
+                await document.documentElement.webkitRequestFullscreen();
+            }
+
+            // 设置背景颜色
+            document.body.style.backgroundColor = selectedColor;
+
+            // 隐藏所有内容
+            document.getElementById("container").style.display = "none";
+
+            // 开启屏幕常亮
+            try {
+                wakeLock = await navigator.wakeLock.request("screen");
+                wakeLock.addEventListener("release", () => {
+                    console.log("屏幕常亮已释放");
+                });
+            } catch (err) {
+                console.error(`${err.name}, ${err.message}`);
+            }
+        });
+
+        // 监听全屏状态切换，退出全屏时恢复内容
+        document.addEventListener("fullscreenchange", () => {
+            if (!document.fullscreenElement) {
+                document.body.style.backgroundColor = "white"; // 恢复默认背景
+                document.getElementById("container").style.display = "block"; // 显示内容
+            }
+        });
+    </script>
+</body>
+</html>
