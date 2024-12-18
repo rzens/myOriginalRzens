@@ -32,32 +32,31 @@
 </head>
 <body>
     <div id="container">
-        <h1>选择背景颜色并开启屏幕常亮</h1>
+        <!-- <h1>选择背景颜色并开启屏幕常亮</h1>
         <div id="color-options">
             <button class="color-btn" style="background-color: red;" data-color="red"></button>
             <button class="color-btn" style="background-color: green;" data-color="green"></button>
             <button class="color-btn" style="background-color: blue;" data-color="blue"></button>
             <button class="color-btn" style="background-color: yellow;" data-color="yellow"></button>
             <button class="color-btn" style="background-color: black;" data-color="black"></button>
-        </div>
+        </div> -->
         <button id="start">开启屏幕常亮</button>
     </div>
 
     <script>
-        let selectedColor = "white"; // 默认背景颜色
+        let selectedColor = "black"; // 默认背景颜色
         let wakeLock = null;
 
         // 点击颜色按钮切换颜色
         // document.querySelectorAll(".color-btn").forEach(button => {
         //     button.addEventListener("click", function () {
         //         selectedColor = this.dataset.color; // 获取颜色值
-        //         document.body.style.backgroundColor = selectedColor;
+        //         document.body.style.backgroundColor = "#000000";
         //     });
         // });
-        document.body.style.backgroundColor = "black";
 
         // 点击开启屏幕常亮按钮
-        // document.getElementById("start").addEventListener("click", async () => {
+        document.getElementById("start").addEventListener("click", async () => {
             // 尝试进入全屏模式
             if (document.documentElement.requestFullscreen) {
                 await document.documentElement.requestFullscreen();
@@ -66,7 +65,7 @@
             }
 
             // 设置背景颜色
-            document.body.style.backgroundColor = selectedColor;
+            document.body.style.backgroundColor = "#000000";
 
             // 隐藏所有内容
             document.getElementById("container").style.display = "none";
@@ -80,7 +79,7 @@
             } catch (err) {
                 console.error(`${err.name}, ${err.message}`);
             }
-        // });
+        });
 
         // 监听全屏状态切换，退出全屏时恢复内容
         document.addEventListener("fullscreenchange", () => {
