@@ -48,15 +48,16 @@
         let wakeLock = null;
 
         // 点击颜色按钮切换颜色
-        document.querySelectorAll(".color-btn").forEach(button => {
-            button.addEventListener("click", function () {
-                selectedColor = this.dataset.color; // 获取颜色值
-                document.body.style.backgroundColor = selectedColor;
-            });
-        });
+        // document.querySelectorAll(".color-btn").forEach(button => {
+        //     button.addEventListener("click", function () {
+        //         selectedColor = this.dataset.color; // 获取颜色值
+        //         document.body.style.backgroundColor = selectedColor;
+        //     });
+        // });
+        document.body.style.backgroundColor = "black";
 
         // 点击开启屏幕常亮按钮
-        document.getElementById("start").addEventListener("click", async () => {
+        // document.getElementById("start").addEventListener("click", async () => {
             // 尝试进入全屏模式
             if (document.documentElement.requestFullscreen) {
                 await document.documentElement.requestFullscreen();
@@ -79,7 +80,7 @@
             } catch (err) {
                 console.error(`${err.name}, ${err.message}`);
             }
-        });
+        // });
 
         // 监听全屏状态切换，退出全屏时恢复内容
         document.addEventListener("fullscreenchange", () => {
